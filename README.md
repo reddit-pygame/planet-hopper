@@ -2,6 +2,10 @@
 
 This challenge focuses on implementing an AI captain for a spaceship that transports goods between planets.
 
+Github repo: https://github.com/reddit-pygame/planet-hopper
+
+
+
 #How it Works
 
 ###Goal

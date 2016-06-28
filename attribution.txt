@@ -1,11 +1,19 @@
+LICENSES
+
+CC0            https://creativecommons.org/publicdomain/zero/1.0/legalcode
+CC-BY 2.0   https://creativecommons.org/licenses/by/2.0/legalcode
+CC BY 3.0    http://creativecommons.org/licenses/by/3.0/legalcode
+
+
+All code is public domain.
+
+Graphics
 
 titanium.png
-Source:
+Source: https://commons.wikimedia.org/wiki/File:Ti,22.jpg1
 Author:
-License:
+License: Public Domain
 
-
-https://commons.wikimedia.org/wiki/File:Ti,22.jpg1
 
 aluminum.png
 Source: http://www.publicdomainpictures.net/view-image.php?image=120583&picture=horizontal-aluminum-pipe-background
@@ -21,12 +29,6 @@ plastic.png
 Source: https://commons.wikimedia.org/wiki/Category:Plastic_beads#/media/File:Plastic_beads2.jpg
 Author: https://commons.wikimedia.org/wiki/User:Aney~commonswiki
 License: CC-BY 2.5
-
-stars.png
-Source: http://opengameart.org/content/seamless-space-stars
-Author: n4pgamer
-License: CC-0
-
 
 Source:
 Author:
