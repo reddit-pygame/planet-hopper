@@ -1,11 +1,9 @@
 #Planet Hopper
 
 This challenge focuses on implementing an AI captain for a spaceship that transports goods between planets. You will need to download
- the github repo to test your AI code, but only the Captain class (components\captain.py) should be modified. 
+ the github repo to test your AI code, but only the Captain class (components\captain.py) should be modified.
 
-Github repo: https://github.com/reddit-pygame/planet-hopper
-
-
+Challenge thread: https://www.reddit.com/r/pygame/comments/4qcgmd/challenge_planet_hopper/
 
 #How it Works
 
