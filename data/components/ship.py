@@ -43,12 +43,17 @@ class Ship(object):
         w, h  = 200, 220
         surf = pg.Surface((w, h))
         surf.fill(pg.Color("gray10"))
-        dest = "None"
+        dest = None
         if self.destination:
             dest = self.destination.name
-        Label("Destination: {}".format(dest), {"topleft": (0, 0)},
-                labels)
-        top = 30
+        if not dest:
+            text = "Docked on {}".format(self.location.name)
+        else:
+            text = "Enroute to {}".format(dest)
+        Label(text, {"midtop": (w//2, 0)},
+                labels, font_size=20)
+        Label("{} Passengers".format(self.num_colonists), {"midtop": (w//2, 20)}, labels)
+        top = 50
         for i in self.cargo:
             lab1 = Label(i, {"topleft": (5, top)}, labels, text_color="gray85")
             lab4 = Label("{}".format(self.cargo[i]), {"topleft": (80, top)}, labels, text_color="gray80")
@@ -73,7 +78,9 @@ class Ship(object):
         for good in self.cargo:
             planet.inventory[good] += self.cargo[good]
             self.cargo[good] = 0
-            
+        planet.num_colonists += self.num_colonists
+        self.num_colonists = 0
+        
     def dock(self):
         self.offload()
         self.docked = True
@@ -95,6 +102,7 @@ class Ship(object):
             angle = get_angle(p1, p2)
             self.velocity = project((0, 0), angle, 1)
             self.image = pg.transform.rotate(self.base_image, degrees(angle))
+            self.rect = self.image.get_rect(center=self.pos)
             self.docked = False
             
     def update(self):
@@ -107,8 +115,15 @@ class Ship(object):
             if get_distance(self.pos, self.destination.pos) <= self.speed:
                 self.dock()
         
-        
+    def draw_path(self, surface):    
+        if self.location == "Space":
+            p1 = self.rect.center
+            p2 = self.destination.rect.center
+            pg.draw.line(surface, pg.Color("gray60"), p1, p2)
+            
     def draw(self, surface):
+        self.draw_path(surface)
         surface.blit(self.image, self.rect)
+        
 
 

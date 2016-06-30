@@ -12,8 +12,10 @@ from .captain import Captain
 
 class World(object):
     """A single World object represents the entire simulation."""
-    prefixes = ["Gul", "Krel", "Grim", "Ar", "Vog", "Brel", "Zar", "Hol", "Vel", "Rek", "Sar", "Zil"]
-    suffixes = ["nib", "vex", "vin", "bin", "bos", "nos", "tos", "bis", "nis", "tis", "nex", "blit"]
+    prefixes = ["Gul", "Krel", "Grim", "Ar", "Vog", "Brel",
+                    "Zar", "Hol", "Vel", "Rek", "Sar", "Zil"]
+    suffixes = ["nib", "vex", "vin", "bin", "bos", "nos",
+                    "tos", "bis", "nis", "tis", "nex", "blit"]
     def __init__(self):
         self.planets = self.make_planets()
         self.distances = self.get_distances()
@@ -28,9 +30,7 @@ class World(object):
         names = []
         pre = sample(self.prefixes, num_planets)
         suf = sample(self.suffixes, num_planets)
-        for p, s in zip(pre, suf):
-            names.append("{}{}".format(p, s))
-        return names
+        return ["{}{}".format(p, s) for p, s in zip(pre, suf)]
         
     def make_planets(self):
         sr = prepare.SCREEN_RECT
@@ -73,7 +73,7 @@ class World(object):
                 d[name][other.name] = get_distance(planet.pos, other.pos)
         return d                
 
-    def load_cargo(self, cargo):
+    def load_cargo(self, cargo, num_colonists):
         if self.ship.location:
             planet = self.ship.location
             inv = planet.inventory
@@ -85,18 +85,20 @@ class World(object):
                 else:
                     self.ship.cargo += inv[c]
                     inv[c] = 0
-                    
+            if planet.num_colonists >= num_colonists:
+                planet.num_colonists -= num_colonists
+                self.ship.num_colonists += num_colonists
+
     def follow_orders(self, orders):
         if orders["destination"] is not None:
-            self.load_cargo(orders["cargo"])
+            self.load_cargo(orders["cargo"], orders["colonists"])
             destination = self.planets[orders["destination"]]
             self.ship.travel(destination, self)
             
     def daily_update(self):
         self.day += 1
         for p in self.planets.values():
-            p.produce()
-            p.consume()
+            p.daily_update()
         if self.ship.docked:
             planet_info = self.get_planet_info()
             ship_info = self.ship.get_info()

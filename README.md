@@ -14,13 +14,13 @@ Accumulate 100,000 units of each resource (other than food). Resources onboard t
 
 ###Planets
 
-Each planet is capable of producing a particular resource. Each colonist on the planet will produce 1 unit of the planet's resource per day. Each planet
- starts with 10 colonists and 1000 units of food.
+Each planet is capable of producing a particular resource. Each colonist on the planet is capable of producing 1 unit of the planet's resource per day
+ if they have a sufficient amount of each resource. Each planet starts with 10 colonists and 1000 units of each resource.
 
 ###Resources
 
-Each colonist needs .15 units of food each day to survive. Insufficient food will result in starvation of some or all of the colonists on the planet.
-
+Each colonist needs a certain amount of each resource in order to harvest a planet's resource. If the planet doesn't have enough in its inventory
+ no production will occur. Insufficient food will result in starvation of some or all of the colonists on the planet.
 
 ###Ship
 
@@ -67,9 +67,15 @@ The Captain.get_orders method should return a dict representing the captain's or
 ###Controls
 
 **UP** Increase simulation speed
+
 **DOWN** Decrease simulation speed
+
 **SPACE** Pause simulation
+
 **ESC** Exit
+
+**F1** Toggle fullscreen
+
 
 Hover mouse over ship or planet to display info window
 
@@ -94,7 +100,7 @@ Hover mouse over ship or planet to display info window
 [Spin Class](https://www.reddit.com/r/pygame/comments/4aq3or/challenge_spin_class/) | 
 [Egg Lob](https://www.reddit.com/r/pygame/comments/4dcvq4/challenge_egg_lob/) | 
 [Build-A-Sprite](https://www.reddit.com/r/pygame/comments/4g3m7n/challenge_buildasprite/) | 
-[Matrix Digital Rain](https://www.reddit.com/r/pygame/comments/4jg5cf/challenge_matrix_digital_rain/)
-
+[Matrix Digital Rain](https://www.reddit.com/r/pygame/comments/4jg5cf/challenge_matrix_digital_rain/) | 
+[Desktop Calculator](https://www.reddit.com/r/pygame/comments/4mnu2x/challenge_desktop_calculator/)
 
 *Good luck, have fun and feel free to ask for help if you need it*

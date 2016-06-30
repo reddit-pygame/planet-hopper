@@ -35,3 +35,4 @@ class Captain(object):
             "cargo": {},
             "colonists": 0}
         return orders
+

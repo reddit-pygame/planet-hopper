@@ -43,11 +43,11 @@ class Planet(pg.sprite.Sprite):
         self.resource = resource
         self.inventory = {
                 "Food": 1000,
-                "Uranium": 0,
-                "Plastic": 0,
-                "Aluminum": 0,
-                "Titanium": 0,
-                "Gold": 0
+                "Uranium": 1000,
+                "Plastic": 1000,
+                "Aluminum": 1000,
+                "Titanium": 1000,
+                "Gold": 1000
                 }
         self.name = name
         self.radius = radius
@@ -125,11 +125,14 @@ class Planet(pg.sprite.Sprite):
         surf = pg.Surface((w, h))
         surf.fill(pg.Color("gray10"))
         pg.draw.rect(surf, pg.Color("gray5"), surf.get_rect(), 2)
-        title = Label(self.name, {"midtop": (w//2, 0)}, text_color="gray80")
+        title = Label(self.name, {"midtop": (w//2, 0)}, text_color="gray80", font_size=20)
         title.draw(surf)
-        res_label = Label(self.resource, {"midtop": (w//2, 20)}, text_color="gray75")
+        res_label = Label(self.resource, {"midtop": (w//2, 25)}, text_color="gray75")
         res_label.draw(surf)
-        top = 50
+        col_label = Label("{} Colonists".format(self.num_colonists),
+                                {"midtop": (w//2, 40)}, text_color="gray75")
+        col_label.draw(surf)
+        top = 70
         titles = "Prod.", "Cons.", "On Hand"
         lefts = 50, 90, 130
         for title, left in zip(titles, lefts):
@@ -163,10 +166,20 @@ class Planet(pg.sprite.Sprite):
         rect = surf.get_rect(topleft=(left, top))
         surface.blit(surf, rect)
         
-    def produce(self): 
-        self.inventory[self.resource] += self.num_colonists
-
-    def consume(self):
+    def can_produce(self):
+        deduct = {}
+        for good in self.inventory:
+            if good != "Food":
+                need = RESOURCES[good]
+                total_use = need * self.num_colonists
+                on_hand = self.inventory[good]
+                if on_hand < total_use:
+                    return
+                else:
+                    deduct[good] = total_use
+        return deduct        
+    
+    def daily_update(self):
         hunger = RESOURCES["Food"]
         eaten = self.num_colonists * hunger
         food = self.inventory["Food"]
@@ -176,7 +189,12 @@ class Planet(pg.sprite.Sprite):
             portions = int(food / float(hunger))
             dead = self.num_colonists - portions
             self.num_colonists = portions
-            self.inventory["Food"]    
+            self.inventory["Food"]  = 0
+        deduct = self.can_produce()  
+        if deduct:
+            for good in deduct:
+                self.inventory[good] -= deduct[good]
+            self.inventory[self.resource] += self.num_colonists
        
         
     def draw(self, surface):
