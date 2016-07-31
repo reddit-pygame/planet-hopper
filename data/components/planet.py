@@ -51,7 +51,7 @@ class Planet(pg.sprite.Sprite):
                 }
         self.name = name
         self.radius = radius
-        self.pos = pos
+        self.pos = tuple(pos)
         self.color = color
         w = self.radius * 2 
         self.redraw = False

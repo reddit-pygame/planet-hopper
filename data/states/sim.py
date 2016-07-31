@@ -3,6 +3,7 @@ import pygame as pg
 from .. import tools, prepare
 from ..components.world import World, Planet, Ship
 from ..components.labels import Label
+from ..components.resources import RESOURCES
 
 
 class UI(object):
@@ -36,7 +37,10 @@ class UI(object):
 class SpaceSim(tools._State):
     def __init__(self):
         super(SpaceSim, self).__init__()
-        self.world = World()
+        
+    def startup(self, persistent):
+        self.persist = persistent
+        self.world = World(self.persist["world"])
         self.sim_timer = 0
         self.running_sim = True
         self.hovered = None
@@ -45,9 +49,6 @@ class SpaceSim(tools._State):
         self.tick_index = 0
         self.tick_length = self.tick_lengths[self.tick_index]
         
-    def startup(self, persistent):
-        self.persist = persistent
-
     def get_event(self, event):
         if event.type == pg.QUIT:
             self.quit = True
@@ -65,13 +66,25 @@ class SpaceSim(tools._State):
                     self.tick_index -= 1
                     self.tick_length = self.tick_lengths[self.tick_index]
                 
+    def check_win(self):
+        inv = {x: 0 for x in RESOURCES if x != "Food"}
+        for p in self.world.planets.values():
+            for g in inv:
+                inv[g] += p.inventory[g]
+        if any((x < 100000 for x in inv.values())):
+            return False
+        return True
+                        
     def update(self, dt):
         if self.running_sim:
             self.sim_timer += dt
             
             while self.sim_timer >= self.tick_length:
-                self.world.daily_update()
-                self.world.ship.update()
+                if self.check_win():
+                    self.running_sim = False
+                else:
+                    self.world.daily_update()
+                    self.world.ship.update()
                 self.sim_timer -= self.tick_length
                     
         self.hovered = None
